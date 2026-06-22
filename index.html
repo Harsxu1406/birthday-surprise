@@ -69,8 +69,8 @@
             border-radius: 4px;
             border: 3px solid transparent;
             transition: 0.3s;
-            /* YOUR PROFILE PICTURE LINK APPLIED HERE */
-            background: url('https://drive.google.com/uc?export=view&id=1WyYXuYl1KI93y2Ha0b9xAOn1kXjGUbP8') center/cover;
+            /* PROFILE PICTURE LOCAL FILE */
+            background: url('profile.jpg') center/cover;
         }
         .profile:hover .profile-img { border-color: white; }
         .profile-name {
@@ -191,30 +191,37 @@
 </head>
 <body>
 
+    <!-- 1. Intro Animation -->
     <div id="intro-screen">
         <div class="netflix-logo-anim">NETFLIX</div>
     </div>
 
+    <!-- 2. Profile Screen -->
     <div id="profile-screen">
         <h1>Who's watching?</h1>
         <div class="profiles">
             <div class="profile" onclick="enterMainScreen()">
+                <!-- Her Profile -->
                 <div class="profile-img"></div>
                 <div class="profile-name">Birthday Girl ❤️</div>
             </div>
             <div class="profile">
+                <!-- Dummy Profile -->
                 <div class="profile-img" style="background: url('https://upload.wikimedia.org/wikipedia/commons/0/0b/Netflix-avatar.png') center/cover;"></div>
                 <div class="profile-name">Guest</div>
             </div>
         </div>
     </div>
 
+    <!-- 3. Main Screen -->
     <div id="main-screen">
         <header>
             <div class="logo">NETFLIX</div>
-            <div class="profile-icon" style="width:35px; height:35px; background: url('https://drive.google.com/uc?export=view&id=1WyYXuYl1KI93y2Ha0b9xAOn1kXjGUbP8') center/cover; border-radius:4px;"></div>
+            <!-- PROFILE PICTURE IN THE TOP RIGHT CORNER LOCAL FILE -->
+            <div class="profile-icon" style="width:35px; height:35px; background: url('profile.jpg') center/cover; border-radius:4px;"></div>
         </header>
 
+        <!-- Hero Section with Slideshow -->
         <div class="hero" id="hero-slider">
             <div class="hero-content">
                 <h1>Happy Birthday!</h1>
@@ -223,18 +230,23 @@
             </div>
         </div>
 
+        <!-- Movie Rows -->
         <div class="row">
             <h2>Our Memories (Click us!)</h2>
             <div class="cards">
+                <!-- Banner 1 -->
                 <div class="card banner1" onclick="openModal('The First Date', 'Remember this day? It was the start of my favorite season of life with you. Happy Birthday!')">
                     <div class="card-info">Season 1: The Beginning</div>
                 </div>
+                <!-- Banner 2 -->
                 <div class="card banner2" onclick="openModal('The Best Adventures', 'Every day with you feels like an award-winning movie. I cannot wait to make more memories.')">
                     <div class="card-info">Action & Adventure</div>
                 </div>
+                <!-- Banner 3 -->
                 <div class="card banner3" onclick="openModal('Happy Birthday!', 'You are the main character today and every day. Wishing you all the love in the world.')">
                     <div class="card-info">Top 10 Today</div>
                 </div>
+                 <!-- Banner 4 -->
                  <div class="card banner4" onclick="openModal('Future Plans', 'Spoilers: Our future looks incredibly bright. Have the best day ever!')">
                     <div class="card-info">Coming Soon</div>
                 </div>
@@ -242,6 +254,7 @@
         </div>
     </div>
 
+    <!-- 4. Hidden Modal -->
     <div id="surpriseModal" class="modal">
         <div class="modal-content">
             <span class="close" onclick="closeModal()">&times;</span>
@@ -274,11 +287,11 @@
         }
 
         // --- 3. Hero Slideshow Logic ---
-        // YOUR 3 SLIDESHOW PICTURE LINKS APPLIED HERE
+        // LOCAL FILE LINKS APPLIED HERE (1, 2, 3)
         const slideImages = [
-            "url('https://drive.google.com/uc?export=view&id=1LqlZifGNEnFfUSPgmrzVnY8Mf2aQ7Rme')",
-            "url('https://drive.google.com/uc?export=view&id=1GXF0Bg-v6vLVn5QZKQiYRyVUeDkKJWIk')",
-            "url('https://drive.google.com/uc?export=view&id=16OqaGt53tecE9kz866esZtWafA5AEidC')"
+            "url('1.jpg')",
+            "url('2.jpg')",
+            "url('3.jpg')"
         ]; 
 
         let currentSlide = 0;
