@@ -2,8 +2,8 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Netflix</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>SurpriseFlix</title>
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
     <style>
         body {
@@ -13,12 +13,13 @@
             margin: 0;
             overflow-x: hidden;
             user-select: none;
+            -webkit-tap-highlight-color: transparent; /* Removes blue tap highlight on mobile */
         }
 
         /* --- INTRO ANIMATION SCREEN --- */
         #intro-screen {
             position: fixed;
-            top: 0; left: 0; width: 100vw; height: 100vh;
+            top: 0; left: 0; width: 100vw; height: 100dvh;
             background-color: black;
             display: flex;
             justify-content: center;
@@ -28,7 +29,7 @@
         }
         .netflix-logo-anim {
             color: #e50914;
-            font-size: 8rem;
+            font-size: 15vw; /* Scales perfectly on phones */
             font-weight: 900;
             letter-spacing: 5px;
             animation: zoomIn 3s forwards;
@@ -42,82 +43,81 @@
         /* --- PROFILE SELECTION SCREEN --- */
         #profile-screen {
             position: fixed;
-            top: 0; left: 0; width: 100vw; height: 100vh;
+            top: 0; left: 0; width: 100vw; height: 100dvh;
             background-color: #141414;
-            display: none; /* Shown after intro */
+            display: none; 
             flex-direction: column;
             justify-content: center;
             align-items: center;
             z-index: 500;
         }
         #profile-screen h1 {
-            font-size: 3vw;
+            font-size: 1.8rem;
             font-weight: 400;
             margin-bottom: 2rem;
+            text-align: center;
         }
         .profiles {
             display: flex;
-            gap: 30px;
+            gap: 20px;
+            justify-content: center;
         }
         .profile {
             text-align: center;
             cursor: pointer;
         }
         .profile-img {
-            width: 150px;
-            height: 150px;
+            width: 100px;
+            height: 100px;
             border-radius: 4px;
             border: 3px solid transparent;
             transition: 0.3s;
-            /* PROFILE PICTURE LOCAL FILE */
-            background: url('1.jpg') center/cover;
+            background: url('profile.jpg') center/cover;
         }
-        .profile:hover .profile-img { border-color: white; }
+        .profile:active .profile-img { border-color: white; }
         .profile-name {
-            margin-top: 15px;
+            margin-top: 10px;
             color: gray;
-            font-size: 1.2rem;
+            font-size: 0.9rem;
             transition: 0.3s;
         }
-        .profile:hover .profile-name { color: white; }
+        .profile:active .profile-name { color: white; }
 
         /* --- MAIN HOME SCREEN --- */
         #main-screen {
-            display: none; /* Shown after profile selection */
+            display: none; 
             opacity: 0;
             transition: opacity 1s ease-in;
+            padding-bottom: 30px;
         }
         header {
             position: fixed;
             top: 0; width: 100%;
-            padding: 20px 40px;
-            background: linear-gradient(to bottom, rgba(0,0,0,0.8), transparent);
+            padding: 15px 20px;
+            background: linear-gradient(to bottom, rgba(0,0,0,0.9), transparent);
             z-index: 100;
             display: flex;
             justify-content: space-between;
+            align-items: center;
             box-sizing: border-box;
         }
         .logo {
             color: #e50914;
-            font-size: 2rem;
+            font-size: 1.5rem;
             font-weight: 900;
         }
 
         /* Hero Slideshow */
-        /* Hero Slideshow */
         .hero {
-            height: 80vh;
-            padding: 50px 40px;
+            height: 70dvh; /* Mobile friendly height */
+            padding: 30px 20px;
             display: flex;
             flex-direction: column;
             justify-content: flex-end;
             position: relative;
-            /* --- CHANGED FOR PORTRAIT PHOTOS --- */
-            background-size: contain !important; 
-            background-position: center !important;
+            background-size: cover !important; 
+            background-position: center top !important;
             background-repeat: no-repeat !important;
-            background-color: #141414; /* Blends the edges */
-            /* ----------------------------------- */
             transition: background-image 1s ease-in-out;
         }
         /* Gradient overlay for readability */
@@ -125,141 +125,150 @@
             content: '';
             position: absolute;
             top: 0; left: 0; width: 100%; height: 100%;
-            background: linear-gradient(to right, #141414 10%, transparent 60%),
-                        linear-gradient(to top, #141414 5%, transparent 40%);
+            background: linear-gradient(to top, #141414 5%, transparent 60%);
             z-index: 1;
         }
         .hero-content {
             position: relative;
             z-index: 2;
-            padding-bottom: 50px;
+            padding-bottom: 20px;
+            text-align: center; /* Centered for mobile */
         }
-        .hero h1 { font-size: 4rem; margin: 0 0 10px 0; text-shadow: 2px 2px 4px rgba(0,0,0,0.5); }
-        .hero p { font-size: 1.2rem; max-width: 600px; color: #fff; text-shadow: 1px 1px 3px rgba(0,0,0,0.8); }
+        .hero h1 { 
+            font-size: 2.5rem; 
+            margin: 0 0 10px 0; 
+            text-shadow: 2px 2px 5px rgba(0,0,0,0.8); 
+        }
+        .hero p { 
+            font-size: 1rem; 
+            margin: 0 auto;
+            max-width: 90%; 
+            color: #fff; 
+            text-shadow: 1px 1px 4px rgba(0,0,0,0.9); 
+        }
         .btn {
             background-color: white; color: black;
-            padding: 10px 30px; border: none; font-size: 1.2rem;
+            padding: 12px 35px; border: none; font-size: 1.1rem;
             cursor: pointer; border-radius: 4px; font-weight: bold;
-            margin-top: 20px; transition: 0.2s;
+            margin-top: 15px; transition: 0.2s;
         }
-        .btn:hover { background-color: rgba(255,255,255,0.7); }
+        .btn:active { background-color: rgba(255,255,255,0.7); }
 
         /* Movie Rows */
-        .row { padding: 0 40px 40px 40px; position: relative; z-index: 2; }
-        .row h2 { font-size: 1.4rem; margin-bottom: 15px; }
-        .cards { display: flex; gap: 15px; overflow-x: auto; padding-bottom: 20px; }
-        .cards::-webkit-scrollbar { display: none; } /* Hide scrollbar */
-        
-        .card {
-            min-width: 250px; height: 140px;
-            background-color: #333; border-radius: 4px;
-            transition: transform 0.4s ease; cursor: pointer;
-            position: relative;
+        .row { padding: 10px 0 0 0; position: relative; z-index: 2; }
+        .row h2 { font-size: 1.2rem; margin: 0 0 10px 20px; }
+        .cards { 
+            display: flex; 
+            gap: 12px; 
+            overflow-x: auto; /* Swipeable on mobile */
+            padding: 0 20px 20px 20px; 
+            scroll-snap-type: x mandatory; /* Snaps into place */
+            -webkit-overflow-scrolling: touch;
         }
-        .card:hover { transform: scale(1.15); z-index: 10; box-shadow: 0px 0px 20px rgba(0,0,0,0.8); }
+        .cards::-webkit-scrollbar { display: none; } 
         
-        /* Banner Images - PLACEHOLDERS FOR NOW */
-        .banner1 { background: url('https://images.unsplash.com/photo-1513151233558-d860c5398176?q=80&w=1000') center/cover; }
-        .banner2 { background: url('https://images.unsplash.com/photo-1492684223066-81342ee5ff30?q=80&w=1000') center/cover; }
-        .banner3 { background: url('https://images.unsplash.com/photo-1530103862676-de8892bc952f?q=80&w=1000') center/cover; }
-        .banner4 { background: url('https://images.unsplash.com/photo-1513201099705-a9746e1e201f?q=80&w=1000') center/cover; }
+        /* CHANGED TO PORTRAIT POSTERS */
+        .card {
+            min-width: 130px; 
+            height: 195px; /* 2:3 ratio, perfect for your photos */
+            background-color: #222; 
+            border-radius: 6px;
+            transition: transform 0.2s ease; cursor: pointer;
+            position: relative;
+            scroll-snap-align: start;
+        }
+        .card:active { transform: scale(0.95); }
+        
+        /* Banner Images - Just name your new photos 7.jpg, 8.jpg, etc. */
+        .banner1 { background: url('7.jpg') center/cover; }
+        .banner2 { background: url('8.jpg') center/cover; }
+        .banner3 { background: url('9.jpg') center/cover; }
+        .banner4 { background: url('10.jpg') center/cover; }
         
         /* Hover Details */
         .card-info {
-            display: none; position: absolute; bottom: 0;
+            display: flex; align-items: flex-end; justify-content: center;
+            position: absolute; bottom: 0; left: 0;
             background: linear-gradient(to top, rgba(0,0,0,0.9), transparent);
-            width: 100%; padding: 10px; box-sizing: border-box; text-align: center;
-            font-weight: bold; color: #fff; font-size: 0.9rem;
+            width: 100%; height: 50%; padding: 10px; box-sizing: border-box; text-align: center;
+            font-weight: bold; color: #fff; font-size: 0.8rem;
         }
-        .card:hover .card-info { display: block; }
 
         /* --- MODAL / POPUP --- */
         .modal {
             display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: rgba(0,0,0,0.85); z-index: 200;
             justify-content: center; align-items: center;
+            padding: 20px; box-sizing: border-box;
         }
         .modal-content {
-            background: #181818; padding: 40px; border-radius: 10px;
-            max-width: 500px; text-align: center; position: relative;
+            background: #181818; padding: 30px 20px; border-radius: 10px;
+            width: 100%; max-width: 400px; text-align: center; position: relative;
             box-shadow: 0px 0px 30px rgba(229, 9, 20, 0.4); border: 1px solid #333;
         }
         .close {
-            position: absolute; top: 15px; right: 20px; font-size: 2rem;
+            position: absolute; top: 10px; right: 15px; font-size: 2rem;
             cursor: pointer; color: #aaa; transition: 0.2s;
         }
-        .close:hover { color: white; }
-        #modal-title { color: #e50914; margin-bottom: 15px; }
-        #modal-message { line-height: 1.6; font-size: 1.1rem; }
+        .close:active { color: white; }
+        #modal-title { color: #e50914; margin-top: 0; margin-bottom: 10px; font-size: 1.4rem; }
+        #modal-message { line-height: 1.5; font-size: 1rem; margin: 0; }
 
     </style>
 </head>
 <body>
 
-    <!-- 1. Intro Animation -->
     <div id="intro-screen">
         <div class="netflix-logo-anim">NETFLIX</div>
     </div>
 
-    <!-- 2. Profile Screen -->
     <div id="profile-screen">
         <h1>Who's watching?</h1>
         <div class="profiles">
             <div class="profile" onclick="enterMainScreen()">
-                <!-- Her Profile -->
                 <div class="profile-img"></div>
                 <div class="profile-name">Birthday Girl ❤️</div>
             </div>
             <div class="profile">
-                <!-- Dummy Profile -->
                 <div class="profile-img" style="background: url('https://upload.wikimedia.org/wikipedia/commons/0/0b/Netflix-avatar.png') center/cover;"></div>
                 <div class="profile-name">Guest</div>
             </div>
         </div>
     </div>
 
-    <!-- 3. Main Screen -->
     <div id="main-screen">
         <header>
             <div class="logo">NETFLIX</div>
-            <!-- PROFILE PICTURE IN THE TOP RIGHT CORNER LOCAL FILE -->
-            <div class="profile-icon" style="width:35px; height:35px; background: url('profile.jpg') center/cover; border-radius:4px;"></div>
+            <div class="profile-icon" style="width:32px; height:32px; background: url('profile.jpg') center/cover; border-radius:4px;"></div>
         </header>
 
-        <!-- Hero Section with Slideshow -->
         <div class="hero" id="hero-slider">
             <div class="hero-content">
                 <h1>Happy Birthday!</h1>
-                <p>Today's top pick is a beautifully unscripted journey of the most amazing person. Starring you, loved by me. Enjoy your special day!</p>
+                <p>A beautifully unscripted journey. Starring you, loved by me. Enjoy your special day!</p>
                 <button class="btn" onclick="openModal('Play Surprise!', 'Let the celebrations begin! I hope this year brings you endless joy and happiness. I love you!')">▶ Play</button>
             </div>
         </div>
 
-        <!-- Movie Rows -->
         <div class="row">
-            <h2>Our Memories (Click us!)</h2>
+            <h2>Our Memories (Swipe 👉)</h2>
             <div class="cards">
-                <!-- Banner 1 -->
-                <div class="card banner1" onclick="openModal('The First Date', 'Remember this day? It was the start of my favorite season of life with you. Happy Birthday!')">
-                    <div class="card-info">Season 1: The Beginning</div>
+                <div class="card banner1" onclick="openModal('Your Title Here', 'Your custom message goes right here. Just edit this text in the HTML!')">
+                    <div class="card-info">Tap to View</div>
                 </div>
-                <!-- Banner 2 -->
-                <div class="card banner2" onclick="openModal('The Best Adventures', 'Every day with you feels like an award-winning movie. I cannot wait to make more memories.')">
-                    <div class="card-info">Action & Adventure</div>
+                <div class="card banner2" onclick="openModal('Your Title Here', 'Your custom message goes right here. Just edit this text in the HTML!')">
+                    <div class="card-info">Tap to View</div>
                 </div>
-                <!-- Banner 3 -->
-                <div class="card banner3" onclick="openModal('Happy Birthday!', 'You are the main character today and every day. Wishing you all the love in the world.')">
-                    <div class="card-info">Top 10 Today</div>
+                <div class="card banner3" onclick="openModal('Your Title Here', 'Your custom message goes right here. Just edit this text in the HTML!')">
+                    <div class="card-info">Tap to View</div>
                 </div>
-                 <!-- Banner 4 -->
-                 <div class="card banner4" onclick="openModal('Future Plans', 'Spoilers: Our future looks incredibly bright. Have the best day ever!')">
-                    <div class="card-info">Coming Soon</div>
+                 <div class="card banner4" onclick="openModal('Your Title Here', 'Your custom message goes right here. Just edit this text in the HTML!')">
+                    <div class="card-info">Tap to View</div>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- 4. Hidden Modal -->
     <div id="surpriseModal" class="modal">
         <div class="modal-content">
             <span class="close" onclick="closeModal()">&times;</span>
@@ -271,7 +280,6 @@
     <script>
         // --- 1. Intro Animation Logic ---
         setTimeout(() => {
-            // Hide intro after 3 seconds, show profiles
             document.getElementById('intro-screen').style.display = 'none';
             document.getElementById('profile-screen').style.display = 'flex';
         }, 3000);
@@ -282,17 +290,14 @@
             const mainScreen = document.getElementById('main-screen');
             mainScreen.style.display = 'block';
             
-            // Fade in effect
             setTimeout(() => {
                 mainScreen.style.opacity = '1';
             }, 50);
 
-            // Start Slideshow once main screen is active
             startSlideshow();
         }
 
         // --- 3. Hero Slideshow Logic ---
-        // LOCAL FILE LINKS APPLIED HERE (1, 2, 3)
         const slideImages = [
             "url('5.jpg')",
             "url('6.jpg')",
@@ -302,12 +307,12 @@
         let currentSlide = 0;
         function startSlideshow() {
             const hero = document.getElementById('hero-slider');
-            hero.style.backgroundImage = slideImages[0]; // Set first image
+            hero.style.backgroundImage = slideImages[0]; 
             
             setInterval(() => {
                 currentSlide = (currentSlide + 1) % slideImages.length;
                 hero.style.backgroundImage = slideImages[currentSlide];
-            }, 4000); // Changes image every 4 seconds
+            }, 4000); 
         }
 
         // --- 4. Modal & Confetti Logic ---
@@ -316,7 +321,6 @@
             document.getElementById('modal-message').innerText = message;
             document.getElementById('surpriseModal').style.display = 'flex';
             
-            // Fire Confetti!
             var duration = 2 * 1000;
             var animationEnd = Date.now() + duration;
             var defaults = { startVelocity: 30, spread: 360, ticks: 60, zIndex: 201 };
