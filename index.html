@@ -104,6 +104,7 @@
         }
 
         /* Hero Slideshow */
+        /* Hero Slideshow */
         .hero {
             height: 80vh;
             padding: 50px 40px;
@@ -111,8 +112,12 @@
             flex-direction: column;
             justify-content: flex-end;
             position: relative;
-            background-size: cover !important;
-            background-position: center top !important;
+            /* --- CHANGED FOR PORTRAIT PHOTOS --- */
+            background-size: contain !important; 
+            background-position: center !important;
+            background-repeat: no-repeat !important;
+            background-color: #141414; /* Blends the edges */
+            /* ----------------------------------- */
             transition: background-image 1s ease-in-out;
         }
         /* Gradient overlay for readability */
