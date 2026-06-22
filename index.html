@@ -2,343 +2,305 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Netflix</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Happy Birthday ❤️</title>
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;1,600&family=Poppins:wght@300;400;600&display=swap');
+
+        :root {
+            --bg-color: #0f0c1b;
+            --card-bg: #1a162b;
+            --accent: #ff4d85;
+            --text-main: #ffffff;
+            --text-muted: #a8a3bb;
+        }
+
         body {
-            background-color: #141414;
-            color: white;
-            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
             margin: 0;
+            padding: 0;
+            background-color: #000; /* Outer background for desktop viewers */
+            font-family: 'Poppins', sans-serif;
+            color: var(--text-main);
             overflow-x: hidden;
-            user-select: none;
+            -webkit-tap-highlight-color: transparent;
         }
 
-        /* --- INTRO ANIMATION SCREEN --- */
-        #intro-screen {
-            position: fixed;
-            top: 0; left: 0; width: 100vw; height: 100vh;
-            background-color: black;
+        /* Forces a mobile aspect ratio even if viewed on a computer */
+        .mobile-wrapper {
+            max-width: 480px;
+            margin: 0 auto;
+            background-color: var(--bg-color);
+            min-height: 100vh;
+            position: relative;
+            box-shadow: 0 0 50px rgba(255, 77, 133, 0.1);
+        }
+
+        /* --- HEADER --- */
+        .header {
+            padding: 30px 20px;
             display: flex;
-            justify-content: center;
             align-items: center;
-            z-index: 1000;
-            transition: opacity 1s ease-out;
+            gap: 15px;
+            background: linear-gradient(to bottom, rgba(15,12,27,1) 60%, transparent);
+            position: sticky;
+            top: 0;
+            z-index: 10;
         }
-        .netflix-logo-anim {
-            color: #e50914;
-            font-size: 8rem;
-            font-weight: 900;
-            letter-spacing: 5px;
-            animation: zoomIn 3s forwards;
+        .profile-pic {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: url('profile.jpg') center/cover;
+            border: 2px solid var(--accent);
+            box-shadow: 0 0 15px rgba(255, 77, 133, 0.4);
         }
-        @keyframes zoomIn {
-            0% { transform: scale(0.5); opacity: 0; }
-            30% { opacity: 1; }
-            100% { transform: scale(1.5); opacity: 0; display: none; }
+        .header-text h1 {
+            font-family: 'Playfair Display', serif;
+            margin: 0;
+            font-size: 1.4rem;
+            color: var(--accent);
+        }
+        .header-text p {
+            margin: 0;
+            font-size: 0.8rem;
+            color: var(--text-muted);
         }
 
-        /* --- PROFILE SELECTION SCREEN --- */
-        #profile-screen {
-            position: fixed;
-            top: 0; left: 0; width: 100vw; height: 100vh;
-            background-color: #141414;
-            display: none; /* Shown after intro */
+        /* --- HERO SECTION --- */
+        .hero {
+            padding: 0 20px 20px 20px;
+            text-align: center;
+        }
+        .hero h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.2rem;
+            margin: 0 0 10px 0;
+        }
+        .hero p {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            line-height: 1.5;
+            margin-bottom: 25px;
+        }
+
+        /* --- FEED / CARDS --- */
+        .feed {
+            padding: 0 20px 100px 20px;
+            display: flex;
             flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            z-index: 500;
-        }
-        #profile-screen h1 {
-            font-size: 3vw;
-            font-weight: 400;
-            margin-bottom: 2rem;
-        }
-        .profiles {
-            display: flex;
             gap: 30px;
         }
-        .profile {
-            text-align: center;
+        .memory-card {
+            background-color: var(--card-bg);
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            position: relative;
             cursor: pointer;
+            transition: transform 0.2s ease;
         }
-        .profile-img {
-            width: 150px;
-            height: 150px;
-            border-radius: 4px;
-            border: 3px solid transparent;
-            transition: 0.3s;
-            /* PROFILE PICTURE LOCAL FILE */
-            background: url('1.jpg') center/cover;
+        .memory-card:active {
+            transform: scale(0.98);
         }
-        .profile:hover .profile-img { border-color: white; }
-        .profile-name {
-            margin-top: 15px;
-            color: gray;
-            font-size: 1.2rem;
-            transition: 0.3s;
+        /* Automatically handles portrait photos perfectly */
+        .memory-img {
+            width: 100%;
+            display: block;
+            object-fit: cover;
         }
-        .profile:hover .profile-name { color: white; }
-
-        /* --- MAIN HOME SCREEN --- */
-        #main-screen {
-            display: none; /* Shown after profile selection */
-            opacity: 0;
-            transition: opacity 1s ease-in;
-        }
-        header {
-            position: fixed;
-            top: 0; width: 100%;
-            padding: 20px 40px;
-            background: linear-gradient(to bottom, rgba(0,0,0,0.8), transparent);
-            z-index: 100;
-            display: flex;
-            justify-content: space-between;
-            box-sizing: border-box;
-        }
-        .logo {
-            color: #e50914;
-            font-size: 2rem;
-            font-weight: 900;
-        }
-
-        /* Hero Slideshow */
-        /* Hero Slideshow */
-        .hero {
-            height: 80vh;
-            padding: 50px 40px;
-            display: flex;
-            flex-direction: column;
-            justify-content: flex-end;
-            position: relative;
-            /* --- CHANGED FOR PORTRAIT PHOTOS --- */
-            background-size: contain !important; 
-            background-position: center !important;
-            background-repeat: no-repeat !important;
-            background-color: #141414; /* Blends the edges */
-            /* ----------------------------------- */
-            transition: background-image 1s ease-in-out;
-        }
-        /* Gradient overlay for readability */
-        .hero::before {
-            content: '';
+        .card-label {
             position: absolute;
+            bottom: 15px;
+            left: 15px;
+            background: rgba(0,0,0,0.6);
+            backdrop-filter: blur(5px);
+            padding: 8px 15px;
+            border-radius: 30px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .card-label::after {
+            content: '👆 Tap to open';
+            font-size: 0.7rem;
+            color: var(--accent);
+            font-weight: 400;
+        }
+
+        /* --- BIG FINALE BUTTON --- */
+        .btn-celebrate {
+            background: linear-gradient(45deg, #ff4d85, #ff7b54);
+            color: white;
+            border: none;
+            padding: 18px;
+            width: calc(100% - 40px);
+            margin: 0 20px 40px 20px;
+            border-radius: 15px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            box-shadow: 0 10px 25px rgba(255, 77, 133, 0.4);
+            cursor: pointer;
+            font-family: 'Poppins', sans-serif;
+        }
+        .btn-celebrate:active { transform: scale(0.95); }
+
+        /* --- SLIDE-UP MODAL (APP STYLE) --- */
+        .bottom-sheet {
+            position: fixed;
+            bottom: -100%;
+            left: 0;
+            width: 100%;
+            background-color: var(--card-bg);
+            border-radius: 30px 30px 0 0;
+            box-sizing: border-box;
+            padding: 30px;
+            z-index: 100;
+            transition: bottom 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            box-shadow: 0 -10px 40px rgba(0,0,0,0.8);
+        }
+        .bottom-sheet.active {
+            bottom: 0;
+        }
+        .sheet-overlay {
+            position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
-            background: linear-gradient(to right, #141414 10%, transparent 60%),
-                        linear-gradient(to top, #141414 5%, transparent 40%);
-            z-index: 1;
+            background: rgba(0,0,0,0.7);
+            backdrop-filter: blur(3px);
+            z-index: 99;
+            display: none;
+            opacity: 0;
+            transition: opacity 0.3s ease;
         }
-        .hero-content {
-            position: relative;
-            z-index: 2;
-            padding-bottom: 50px;
+        .sheet-overlay.active {
+            display: block;
+            opacity: 1;
         }
-        .hero h1 { font-size: 4rem; margin: 0 0 10px 0; text-shadow: 2px 2px 4px rgba(0,0,0,0.5); }
-        .hero p { font-size: 1.2rem; max-width: 600px; color: #fff; text-shadow: 1px 1px 3px rgba(0,0,0,0.8); }
-        .btn {
-            background-color: white; color: black;
-            padding: 10px 30px; border: none; font-size: 1.2rem;
-            cursor: pointer; border-radius: 4px; font-weight: bold;
-            margin-top: 20px; transition: 0.2s;
+        .drag-handle {
+            width: 50px;
+            height: 5px;
+            background-color: #3a3553;
+            border-radius: 10px;
+            margin: 0 auto 20px auto;
         }
-        .btn:hover { background-color: rgba(255,255,255,0.7); }
-
-        /* Movie Rows */
-        .row { padding: 0 40px 40px 40px; position: relative; z-index: 2; }
-        .row h2 { font-size: 1.4rem; margin-bottom: 15px; }
-        .cards { display: flex; gap: 15px; overflow-x: auto; padding-bottom: 20px; }
-        .cards::-webkit-scrollbar { display: none; } /* Hide scrollbar */
-        
-        .card {
-            min-width: 250px; height: 140px;
-            background-color: #333; border-radius: 4px;
-            transition: transform 0.4s ease; cursor: pointer;
-            position: relative;
+        .sheet-title {
+            font-family: 'Playfair Display', serif;
+            color: var(--accent);
+            font-size: 1.8rem;
+            margin: 0 0 15px 0;
         }
-        .card:hover { transform: scale(1.15); z-index: 10; box-shadow: 0px 0px 20px rgba(0,0,0,0.8); }
-        
-        /* Banner Images - PLACEHOLDERS FOR NOW */
-        .banner1 { background: url('https://images.unsplash.com/photo-1513151233558-d860c5398176?q=80&w=1000') center/cover; }
-        .banner2 { background: url('https://images.unsplash.com/photo-1492684223066-81342ee5ff30?q=80&w=1000') center/cover; }
-        .banner3 { background: url('https://images.unsplash.com/photo-1530103862676-de8892bc952f?q=80&w=1000') center/cover; }
-        .banner4 { background: url('https://images.unsplash.com/photo-1513201099705-a9746e1e201f?q=80&w=1000') center/cover; }
-        
-        /* Hover Details */
-        .card-info {
-            display: none; position: absolute; bottom: 0;
-            background: linear-gradient(to top, rgba(0,0,0,0.9), transparent);
-            width: 100%; padding: 10px; box-sizing: border-box; text-align: center;
-            font-weight: bold; color: #fff; font-size: 0.9rem;
+        .sheet-message {
+            font-size: 1rem;
+            line-height: 1.6;
+            color: #d1cde0;
+            margin-bottom: 20px;
         }
-        .card:hover .card-info { display: block; }
-
-        /* --- MODAL / POPUP --- */
-        .modal {
-            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.85); z-index: 200;
-            justify-content: center; align-items: center;
-        }
-        .modal-content {
-            background: #181818; padding: 40px; border-radius: 10px;
-            max-width: 500px; text-align: center; position: relative;
-            box-shadow: 0px 0px 30px rgba(229, 9, 20, 0.4); border: 1px solid #333;
-        }
-        .close {
-            position: absolute; top: 15px; right: 20px; font-size: 2rem;
-            cursor: pointer; color: #aaa; transition: 0.2s;
-        }
-        .close:hover { color: white; }
-        #modal-title { color: #e50914; margin-bottom: 15px; }
-        #modal-message { line-height: 1.6; font-size: 1.1rem; }
-
     </style>
 </head>
 <body>
 
-    <!-- 1. Intro Animation -->
-    <div id="intro-screen">
-        <div class="netflix-logo-anim">NETFLIX</div>
-    </div>
-
-    <!-- 2. Profile Screen -->
-    <div id="profile-screen">
-        <h1>Who's watching?</h1>
-        <div class="profiles">
-            <div class="profile" onclick="enterMainScreen()">
-                <!-- Her Profile -->
-                <div class="profile-img"></div>
-                <div class="profile-name">Birthday Girl ❤️</div>
-            </div>
-            <div class="profile">
-                <!-- Dummy Profile -->
-                <div class="profile-img" style="background: url('https://upload.wikimedia.org/wikipedia/commons/0/0b/Netflix-avatar.png') center/cover;"></div>
-                <div class="profile-name">Guest</div>
-            </div>
-        </div>
-    </div>
-
-    <!-- 3. Main Screen -->
-    <div id="main-screen">
-        <header>
-            <div class="logo">NETFLIX</div>
-            <!-- PROFILE PICTURE IN THE TOP RIGHT CORNER LOCAL FILE -->
-            <div class="profile-icon" style="width:35px; height:35px; background: url('profile.jpg') center/cover; border-radius:4px;"></div>
-        </header>
-
-        <!-- Hero Section with Slideshow -->
-        <div class="hero" id="hero-slider">
-            <div class="hero-content">
-                <h1>Happy Birthday!</h1>
-                <p>Today's top pick is a beautifully unscripted journey of the most amazing person. Starring you, loved by me. Enjoy your special day!</p>
-                <button class="btn" onclick="openModal('Play Surprise!', 'Let the celebrations begin! I hope this year brings you endless joy and happiness. I love you!')">▶ Play</button>
+    <div class="mobile-wrapper">
+        
+        <div class="header">
+            <div class="profile-pic"></div>
+            <div class="header-text">
+                <h1>Happy Birthday</h1>
+                <p>A special collection just for you.</p>
             </div>
         </div>
 
-        <!-- Movie Rows -->
-        <div class="row">
-            <h2>Our Memories (Click us!)</h2>
-            <div class="cards">
-                <!-- Banner 1 -->
-                <div class="card banner1" onclick="openModal('The First Date', 'Remember this day? It was the start of my favorite season of life with you. Happy Birthday!')">
-                    <div class="card-info">Season 1: The Beginning</div>
-                </div>
-                <!-- Banner 2 -->
-                <div class="card banner2" onclick="openModal('The Best Adventures', 'Every day with you feels like an award-winning movie. I cannot wait to make more memories.')">
-                    <div class="card-info">Action & Adventure</div>
-                </div>
-                <!-- Banner 3 -->
-                <div class="card banner3" onclick="openModal('Happy Birthday!', 'You are the main character today and every day. Wishing you all the love in the world.')">
-                    <div class="card-info">Top 10 Today</div>
-                </div>
-                 <!-- Banner 4 -->
-                 <div class="card banner4" onclick="openModal('Future Plans', 'Spoilers: Our future looks incredibly bright. Have the best day ever!')">
-                    <div class="card-info">Coming Soon</div>
-                </div>
-            </div>
+        <div class="hero">
+            <h2>To My Favorite Person</h2>
+            <p>Every moment with you is a memory worth keeping. Scroll down to see a few of my favorites.</p>
         </div>
-    </div>
 
-    <!-- 4. Hidden Modal -->
-    <div id="surpriseModal" class="modal">
-        <div class="modal-content">
-            <span class="close" onclick="closeModal()">&times;</span>
-            <h2 id="modal-title">Title</h2>
-            <p id="modal-message">Message goes here.</p>
+        <div class="feed">
+            
+            <div class="memory-card" onclick="openSheet('Where it Started', 'I still remember this day perfectly. It was the beginning of my favorite chapter of life. Happy birthday to the girl who changed everything.')">
+                <img src="1.jpg" class="memory-img" alt="Memory 1">
+                <div class="card-label">Chapter One</div>
+            </div>
+
+            <div class="memory-card" onclick="openSheet('My Favorite Smile', 'Every time I look at this picture, it makes me smile. Your happiness is literally my favorite thing in the world.')">
+                <img src="2.jpg" class="memory-img" alt="Memory 2">
+                <div class="card-label">Pure Joy</div>
+            </div>
+
+            <div class="memory-card" onclick="openSheet('Unforgettable Adventures', 'No matter where we go or what we do, as long as I am with you, I am having the time of my life.')">
+                <img src="3.jpg" class="memory-img" alt="Memory 3">
+                <div class="card-label">Best Times</div>
+            </div>
+
         </div>
+
+        <button class="btn-celebrate" onclick="fireConfetti()">🎁 Tap for Final Surprise 🎁</button>
+
+        <div class="sheet-overlay" id="overlay" onclick="closeSheet()"></div>
+        <div class="bottom-sheet" id="sheet">
+            <div class="drag-handle" onclick="closeSheet()"></div>
+            <h3 class="sheet-title" id="sheetTitle">Title</h3>
+            <p class="sheet-message" id="sheetMessage">Message goes here.</p>
+        </div>
+
     </div>
 
     <script>
-        // --- 1. Intro Animation Logic ---
-        setTimeout(() => {
-            // Hide intro after 3 seconds, show profiles
-            document.getElementById('intro-screen').style.display = 'none';
-            document.getElementById('profile-screen').style.display = 'flex';
-        }, 3000);
+        // Logic for sliding up the messages
+        const sheet = document.getElementById('sheet');
+        const overlay = document.getElementById('overlay');
+        const titleEl = document.getElementById('sheetTitle');
+        const msgEl = document.getElementById('sheetMessage');
 
-        // --- 2. Enter Main Screen ---
-        function enterMainScreen() {
-            document.getElementById('profile-screen').style.display = 'none';
-            const mainScreen = document.getElementById('main-screen');
-            mainScreen.style.display = 'block';
+        function openSheet(title, message) {
+            titleEl.innerText = title;
+            msgEl.innerText = message;
             
-            // Fade in effect
+            overlay.classList.add('active');
+            sheet.classList.add('active');
+        }
+
+        function closeSheet() {
+            sheet.classList.remove('active');
             setTimeout(() => {
-                mainScreen.style.opacity = '1';
-            }, 50);
-
-            // Start Slideshow once main screen is active
-            startSlideshow();
+                overlay.classList.remove('active');
+            }, 300); // Wait for sheet to slide down before hiding overlay
         }
 
-        // --- 3. Hero Slideshow Logic ---
-        // LOCAL FILE LINKS APPLIED HERE (1, 2, 3)
-        const slideImages = [
-            "url('6.jpg')",
-            "url('5.jpg')",
-            "url('4.jpg')"
-        ]; 
-
-        let currentSlide = 0;
-        function startSlideshow() {
-            const hero = document.getElementById('hero-slider');
-            hero.style.backgroundImage = slideImages[0]; // Set first image
-            
-            setInterval(() => {
-                currentSlide = (currentSlide + 1) % slideImages.length;
-                hero.style.backgroundImage = slideImages[currentSlide];
-            }, 4000); // Changes image every 4 seconds
-        }
-
-        // --- 4. Modal & Confetti Logic ---
-        function openModal(title, message) {
-            document.getElementById('modal-title').innerText = title;
-            document.getElementById('modal-message').innerText = message;
-            document.getElementById('surpriseModal').style.display = 'flex';
-            
-            // Fire Confetti!
-            var duration = 2 * 1000;
+        // Logic for the Confetti Explosion
+        function fireConfetti() {
+            var duration = 3 * 1000;
             var animationEnd = Date.now() + duration;
-            var defaults = { startVelocity: 30, spread: 360, ticks: 60, zIndex: 201 };
+            var defaults = { startVelocity: 40, spread: 360, ticks: 60, zIndex: 1000 };
 
-            function randomInRange(min, max) { return Math.random() * (max - min) + min; }
+            function randomInRange(min, max) {
+              return Math.random() * (max - min) + min;
+            }
 
             var interval = setInterval(function() {
-                var timeLeft = animationEnd - Date.now();
-                if (timeLeft <= 0) { return clearInterval(interval); }
-                var particleCount = 50 * (timeLeft / duration);
-                confetti(Object.assign({}, defaults, { particleCount,
-                    origin: { x: randomInRange(0.1, 0.3), y: Math.random() - 0.2 }
-                }));
-                confetti(Object.assign({}, defaults, { particleCount,
-                    origin: { x: randomInRange(0.7, 0.9), y: Math.random() - 0.2 }
-                }));
-            }, 250);
-        }
+              var timeLeft = animationEnd - Date.now();
 
-        function closeModal() {
-            document.getElementById('surpriseModal').style.display = 'none';
+              if (timeLeft <= 0) {
+                return clearInterval(interval);
+              }
+
+              var particleCount = 50 * (timeLeft / duration);
+              // Fire from both sides
+              confetti(Object.assign({}, defaults, { particleCount,
+                origin: { x: randomInRange(0.1, 0.3), y: Math.random() - 0.2 }
+              }));
+              confetti(Object.assign({}, defaults, { particleCount,
+                origin: { x: randomInRange(0.7, 0.9), y: Math.random() - 0.2 }
+              }));
+            }, 250);
+
+            // Pop up a final sweet message after confetti starts
+            setTimeout(() => {
+                openSheet("Happy Birthday! 🎈", "I love you so much. I hope you have the most incredible day today, you deserve the world!");
+            }, 500);
         }
     </script>
+
 </body>
 </html>
