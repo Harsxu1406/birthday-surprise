@@ -69,8 +69,8 @@
             border-radius: 4px;
             border: 3px solid transparent;
             transition: 0.3s;
-            /* PROFILE PICTURE 1 */
-            background: url('https://images.unsplash.com/photo-1513201099705-a9746e1e201f?q=80&w=500') center/cover;
+            /* YOUR PROFILE PICTURE LINK APPLIED HERE */
+            background: url('https://drive.google.com/uc?export=view&id=1WyYXuYl1KI93y2Ha0b9xAOn1kXjGUbP8') center/cover;
         }
         .profile:hover .profile-img { border-color: white; }
         .profile-name {
@@ -111,9 +111,8 @@
             flex-direction: column;
             justify-content: flex-end;
             position: relative;
-            /* SLIDESHOW IMAGES SETUP IN JAVASCRIPT BELOW */
             background-size: cover !important;
-            background-position: center !important;
+            background-position: center top !important;
             transition: background-image 1s ease-in-out;
         }
         /* Gradient overlay for readability */
@@ -154,184 +153,7 @@
         }
         .card:hover { transform: scale(1.15); z-index: 10; box-shadow: 0px 0px 20px rgba(0,0,0,0.8); }
         
-        /* Banner Images - Replace URLs */
+        /* Banner Images - PLACEHOLDERS FOR NOW */
         .banner1 { background: url('https://images.unsplash.com/photo-1513151233558-d860c5398176?q=80&w=1000') center/cover; }
         .banner2 { background: url('https://images.unsplash.com/photo-1492684223066-81342ee5ff30?q=80&w=1000') center/cover; }
-        .banner3 { background: url('https://images.unsplash.com/photo-1530103862676-de8892bc952f?q=80&w=1000') center/cover; }
-        
-        /* Hover Details */
-        .card-info {
-            display: none; position: absolute; bottom: 0;
-            background: linear-gradient(to top, rgba(0,0,0,0.9), transparent);
-            width: 100%; padding: 10px; box-sizing: border-box; text-align: center;
-            font-weight: bold; color: #fff; font-size: 0.9rem;
-        }
-        .card:hover .card-info { display: block; }
-
-        /* --- MODAL / POPUP --- */
-        .modal {
-            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.85); z-index: 200;
-            justify-content: center; align-items: center;
-        }
-        .modal-content {
-            background: #181818; padding: 40px; border-radius: 10px;
-            max-width: 500px; text-align: center; position: relative;
-            box-shadow: 0px 0px 30px rgba(229, 9, 20, 0.4); border: 1px solid #333;
-        }
-        .close {
-            position: absolute; top: 15px; right: 20px; font-size: 2rem;
-            cursor: pointer; color: #aaa; transition: 0.2s;
-        }
-        .close:hover { color: white; }
-        #modal-title { color: #e50914; margin-bottom: 15px; }
-        #modal-message { line-height: 1.6; font-size: 1.1rem; }
-
-    </style>
-</head>
-<body>
-
-    <!-- 1. Intro Animation -->
-    <div id="intro-screen">
-        <div class="netflix-logo-anim">NETFLIX</div>
-    </div>
-
-    <!-- 2. Profile Screen -->
-    <div id="profile-screen">
-        <h1>Who's watching?</h1>
-        <div class="profiles">
-            <div class="profile" onclick="enterMainScreen()">
-                <!-- Her Profile -->
-                <div class="profile-img"></div>
-                <div class="profile-name">Birthday Girl ❤️</div>
-            </div>
-            <div class="profile">
-                <!-- Dummy Profile -->
-                <div class="profile-img" style="background: url('https://upload.wikimedia.org/wikipedia/commons/0/0b/Netflix-avatar.png') center/cover;"></div>
-                <div class="profile-name">Guest</div>
-            </div>
-        </div>
-    </div>
-
-    <!-- 3. Main Screen -->
-    <div id="main-screen">
-        <header>
-            <div class="logo">NETFLIX</div>
-            <div class="profile-icon" style="width:35px; height:35px; background: url('https://images.unsplash.com/photo-1513201099705-a9746e1e201f?q=80&w=100') center/cover; border-radius:4px;"></div>
-        </header>
-
-        <!-- Hero Section with Slideshow -->
-        <div class="hero" id="hero-slider">
-            <div class="hero-content">
-                <h1>Happy Birthday!</h1>
-                <p>Today's top pick is a beautifully unscripted journey of the most amazing person. Starring you, loved by me. Enjoy your special day!</p>
-                <button class="btn" onclick="openModal('Play Surprise!', 'Let the celebrations begin! I hope this year brings you endless joy and happiness. I love you!')">▶ Play</button>
-            </div>
-        </div>
-
-        <!-- Movie Rows -->
-        <div class="row">
-            <h2>Our Memories (Click us!)</h2>
-            <div class="cards">
-                <!-- Banner 1 -->
-                <div class="card banner1" onclick="openModal('The First Date', 'Remember this day? It was the start of my favorite season of life with you. Happy Birthday!')">
-                    <div class="card-info">Season 1: The Beginning</div>
-                </div>
-                <!-- Banner 2 -->
-                <div class="card banner2" onclick="openModal('The Best Adventures', 'Every day with you feels like an award-winning movie. I cannot wait to make more memories.')">
-                    <div class="card-info">Action & Adventure</div>
-                </div>
-                <!-- Banner 3 -->
-                <div class="card banner3" onclick="openModal('Happy Birthday!', 'You are the main character today and every day. Wishing you all the love in the world.')">
-                    <div class="card-info">Top 10 Today</div>
-                </div>
-                 <!-- Banner 4 -->
-                 <div class="card banner1" onclick="openModal('Future Plans', 'Spoilers: Our future looks incredibly bright. Have the best day ever!')">
-                    <div class="card-info">Coming Soon</div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- 4. Hidden Modal -->
-    <div id="surpriseModal" class="modal">
-        <div class="modal-content">
-            <span class="close" onclick="closeModal()">&times;</span>
-            <h2 id="modal-title">Title</h2>
-            <p id="modal-message">Message goes here.</p>
-        </div>
-    </div>
-
-    <script>
-        // --- 1. Intro Animation Logic ---
-        setTimeout(() => {
-            // Hide intro after 3 seconds, show profiles
-            document.getElementById('intro-screen').style.display = 'none';
-            document.getElementById('profile-screen').style.display = 'flex';
-        }, 3000);
-
-        // --- 2. Enter Main Screen ---
-        function enterMainScreen() {
-            document.getElementById('profile-screen').style.display = 'none';
-            const mainScreen = document.getElementById('main-screen');
-            mainScreen.style.display = 'block';
-            
-            // Fade in effect
-            setTimeout(() => {
-                mainScreen.style.opacity = '1';
-            }, 50);
-
-            // Start Slideshow once main screen is active
-            startSlideshow();
-        }
-
-        // --- 3. Hero Slideshow Logic ---
-        const slideImages = [
-            "url('https://images.unsplash.com/photo-1513151233558-d860c5398176?q=80&w=2070')",
-            "url('https://images.unsplash.com/photo-1492684223066-81342ee5ff30?q=80&w=2070')",
-            "url('https://images.unsplash.com/photo-1530103862676-de8892bc952f?q=80&w=2070')"
-        ]; // REPLACE THESE URLs WITH HER PICTURES
-
-        let currentSlide = 0;
-        function startSlideshow() {
-            const hero = document.getElementById('hero-slider');
-            hero.style.backgroundImage = slideImages[0]; // Set first image
-            
-            setInterval(() => {
-                currentSlide = (currentSlide + 1) % slideImages.length;
-                hero.style.backgroundImage = slideImages[currentSlide];
-            }, 4000); // Changes image every 4 seconds
-        }
-
-        // --- 4. Modal & Confetti Logic ---
-        function openModal(title, message) {
-            document.getElementById('modal-title').innerText = title;
-            document.getElementById('modal-message').innerText = message;
-            document.getElementById('surpriseModal').style.display = 'flex';
-            
-            // Fire Confetti!
-            var duration = 2 * 1000;
-            var animationEnd = Date.now() + duration;
-            var defaults = { startVelocity: 30, spread: 360, ticks: 60, zIndex: 201 };
-
-            function randomInRange(min, max) { return Math.random() * (max - min) + min; }
-
-            var interval = setInterval(function() {
-                var timeLeft = animationEnd - Date.now();
-                if (timeLeft <= 0) { return clearInterval(interval); }
-                var particleCount = 50 * (timeLeft / duration);
-                confetti(Object.assign({}, defaults, { particleCount,
-                    origin: { x: randomInRange(0.1, 0.3), y: Math.random() - 0.2 }
-                }));
-                confetti(Object.assign({}, defaults, { particleCount,
-                    origin: { x: randomInRange(0.7, 0.9), y: Math.random() - 0.2 }
-                }));
-            }, 250);
-        }
-
-        function closeModal() {
-            document.getElementById('surpriseModal').style.display = 'none';
-        }
-    </script>
-</body>
-</html>
+        .banner3 { background: url('
