@@ -193,13 +193,13 @@
 
         /* THE 4TH VIDEO CARD */
         .video-card {
-            min-width: 200px; /* Made it a bit wider to look like a feature video */
+            min-width: 200px; 
             height: 195px; 
             background-color: #000; 
             border-radius: 6px;
             scroll-snap-align: start;
             position: relative;
-            overflow: hidden; /* Keeps video inside the rounded corners */
+            overflow: hidden; 
             box-shadow: 0 4px 15px rgba(0,0,0,0.5);
         }
         .video-card video {
@@ -232,6 +232,8 @@
     </style>
 </head>
 <body>
+
+    <audio id="bg-music" src="music.mp3" loop></audio>
 
     <div id="intro-screen">
         <div class="netflix-logo-anim">NETFLIX</div>
@@ -307,6 +309,9 @@
         }, 3000);
 
         function enterMainScreen() {
+            // --- PLAYS MUSIC WHEN PROFILE PICTURE IS TAPPED ---
+            document.getElementById('bg-music').play();
+            
             document.getElementById('profile-screen').style.display = 'none';
             const mainScreen = document.getElementById('main-screen');
             mainScreen.style.display = 'block';
